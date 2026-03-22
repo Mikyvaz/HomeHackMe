@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  ctfd:
+    image: ctfd/ctfd:latest
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - UPLOAD_FOLDER=/var/uploads
+      - LOG_FOLDER=/var/log/CTFd
+      - DATABASE_URL=mysql+pymysql://ctfd:ctfd_secure_pass@db/ctfd
+      - REDIS_URL=redis://cache:6379
+      - SECRET_KEY=cambia_esto_por_una_clave_aleatoria_muy_larga
+    volumes:
+      - ctfd_uploads:/var/uploads
+      - ctfd_logs:/var/log/CTFd
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: mariadb:10.11
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=root_password_super_segura
+      - MARIADB_USER=ctfd
+      - MARIADB_PASSWORD=ctfd_secure_pass
+      - MARIADB_DATABASE=ctfd
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+    volumes:
+      - ctfd_db_data:/var/lib/mysql
+
+  cache:
+    image: redis:7-alpine
+    restart: always
+    volumes:
+      - ctfd_redis_data:/data
+
+volumes:
+  ctfd_db_data:
+  ctfd_redis_data:
+  ctfd_uploads:
+  ctfd_logs:

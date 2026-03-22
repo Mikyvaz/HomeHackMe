@@ -1,0 +1,11 @@
+# Ignorar volúmenes de datos de CTFd
+ctfd/ctfd_db_data/
+ctfd/ctfd_uploads/
+ctfd/ctfd_redis_data/
+ctfd/ctfd_logs/
+
+# Ignorar archivos de variables de entorno (contraseñas)
+.env
+
+# Ignorar basura del sistema
+.DS_Store

@@ -9,9 +9,9 @@ services:
     environment:
       - UPLOAD_FOLDER=/var/uploads
       - LOG_FOLDER=/var/log/CTFd
-      - DATABASE_URL=mysql+pymysql://ctfd:ctfd_secure_pass@db/ctfd
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}
       - REDIS_URL=redis://cache:6379
-      - SECRET_KEY=cambia_esto_por_una_clave_aleatoria_muy_larga
+      - SECRET_KEY=${CTFD_SECRET_KEY}
     volumes:
       - ctfd_uploads:/var/uploads
       - ctfd_logs:/var/log/CTFd
@@ -23,10 +23,10 @@ services:
     image: mariadb:10.11
     restart: always
     environment:
-      - MARIADB_ROOT_PASSWORD=root_password_super_segura
-      - MARIADB_USER=ctfd
-      - MARIADB_PASSWORD=ctfd_secure_pass
-      - MARIADB_DATABASE=ctfd
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MARIADB_USER=${MYSQL_USER}
+      - MARIADB_PASSWORD=${MYSQL_PASSWORD}
+      - MARIADB_DATABASE=${MYSQL_DATABASE}
     command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
     volumes:
       - ctfd_db_data:/var/lib/mysql

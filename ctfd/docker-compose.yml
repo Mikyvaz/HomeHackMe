@@ -1,11 +1,9 @@
-version: '3.9'
-
 services:
   ctfd:
     image: ctfd/ctfd:latest
     restart: always
     ports:
-      - "8000:8000"
+      - "8100:8000"
     environment:
       - UPLOAD_FOLDER=/var/uploads
       - LOG_FOLDER=/var/log/CTFd

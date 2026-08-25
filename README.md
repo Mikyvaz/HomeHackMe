@@ -10,8 +10,8 @@ El proyecto incluye un script interactivo en Bash que genera automáticamente el
 
 ```bash
 # 1. Clonar el repositorio
-git clone [https://github.com/tu-usuario/homehackme.git](https://github.com/tu-usuario/homehackme.git)
-cd homehackme
+git clone [https://github.com/Mikyvaz/HomeHackMe.git](https://github.com/Mikyvaz/HomeHackMe.git)
+cd homehackme 
 
 # 2. Dar permisos de ejecución y lanzar el instalador
 chmod +x setup.sh

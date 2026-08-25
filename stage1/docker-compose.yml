@@ -1,0 +1,77 @@
+services:
+  # CTFD 
+  ctfd:
+    image: ctfd/ctfd:latest
+    container_name: ctfd
+    restart: always
+    ports:
+      - "127.0.0.1:8010:8000"
+    environment:
+      - UPLOAD_FOLDER=/var/uploads
+      - LOG_FOLDER=/var/log/CTFd
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@db/${MYSQL_DATABASE}
+      - REDIS_URL=redis://cache:6379
+      - SECRET_KEY=${CTFD_SECRET_KEY}
+    volumes:
+      - ctfd_uploads:/var/uploads
+      - ctfd_logs:/var/log/CTFd
+    networks:
+      - hacknet
+    depends_on:
+      - db
+      - cache
+
+  db:
+    image: mariadb:10.11
+    container_name: db
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MARIADB_USER=${MYSQL_USER}
+      - MARIADB_PASSWORD=${MYSQL_PASSWORD}
+      - MARIADB_DATABASE=${MYSQL_DATABASE}
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+    volumes:
+      - ctfd_db_data:/var/lib/mysql
+    networks:
+      - hacknet
+
+  cache:
+    image: redis:7-alpine
+    container_name: cache
+    restart: always
+    volumes:
+      - ctfd_redis_data:/data
+    networks:
+      - hacknet
+
+  # FASE 1: ENTORNOS VULNERABLES
+  lab_dvwa: 
+    image: vulnerables/web-dvwa:latest
+    container_name: lab_dvwa
+    ports:
+      - "127.0.0.1:8081:80"
+    networks:
+      - hacknet
+  lab_juiceshop:
+    image: bkimminich/juice-shop
+    container_name: lab_juiceshop
+    ports:
+      - "127.0.0.1:3000:3000"
+    networks:
+      - hacknet
+    
+networks:
+  hacknet:
+    name: hacknet
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.13.37.0/24
+          gateway: 10.13.37.1
+
+volumes:
+  ctfd_db_data:
+  ctfd_redis_data:
+  ctfd_uploads:
+  ctfd_logs:

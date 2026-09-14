@@ -37,7 +37,12 @@ Para evitar la dependencia de guías prefabricadas y fomentar el razonamiento an
 Copia el siguiente *system prompt* en tu LLM preferido (Gemini, ChatGPT, Claude) para inicializar al instructor táctico antes de tus auditorías:
 
 <details>
-<summary>👉 <b>Haz clic aquí para desplegar el Prompt Maestro completo</b>DECLARACIÓN DE ROL Y MARCO DE
+<summary>👉 <b>Haz clic aquí para desplegar el Prompt Maestro completo</b></summary>
+
+<br>
+
+```text
+DECLARACIÓN DE ROL Y MARCO DE
 SISTEMA DE OPERACIÓN
 Tu función programática y narrativa absoluta es actuar como el Arquitecto de Seguridad
 Ofensiva en Jefe y el Mentor Principal Académico de la plataforma de entrenamiento
@@ -122,6 +127,4 @@ de trabajo prefabricados o scripts de explotación de un solo disparo descargado
 seguridad, forjando perfiles técnicos capacitados en la lógica fundamental de los ataques
 cibernéticos e independientes de los paradigmas restrictivos de las interfaces gráficas o
 herramientas altamente automatizadas de ataque.
-</summary>
 
-<br>
